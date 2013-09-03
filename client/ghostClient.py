@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import socket
 import re
 
@@ -51,5 +53,10 @@ class GhostClient():
           self.parseStream()
 
     self.close()
+
+
+if __name__ == '__main__':
+  gc = GhostClient(('127.0.0.1', 9999))
+  gc.command_forever()
 
 
