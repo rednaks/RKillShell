@@ -1,6 +1,7 @@
 import socket
-from utils import *
+import utils
 
+commands = {'list':utils.listAllPIDs, 'kill':utils.kill}
 
 class GhostServer():
   def __init__(self, addr):
@@ -18,8 +19,15 @@ class GhostServer():
     self.conn.send(msg)
 
   def processing(self):
-    #TODO do some processing: parsing the message, executings commands, 
-    return None
+    res = None
+    cmd = self.stream.split(':')
+    if(cmd[0] in commands):
+      if(len(cmd) < 2):
+        res = commands[cmd[0]]()
+      else:
+        res = commands[cmd[0]](int(cmd[1]))
+
+    return res
 
   def serve_forever(self):
     self.conn, self.addr = self.sock.accept()
@@ -29,7 +37,7 @@ class GhostServer():
        break
       haveSomeThingToSay = self.processing()
       if(haveSomeThingToSay is not None):
-        slef.send(haveSomeThingToSay)
+        self.send(haveSomeThingToSay)
 
     # once outside of the loop we close the actual connection and start wating for a new one
     self.conn.close()
