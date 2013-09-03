@@ -1,4 +1,4 @@
-import psutil, signal
+import psutil, signal, time
 
 def listAllPIDs():
     pid_list = psutil.get_pid_list()
@@ -7,13 +7,15 @@ def listAllPIDs():
         process = psutil.Process(pid)
         named_pid_list.append('%d|%s' % (pid, process.name))
 
-    return named_pid_list
+    return ','.join(named_pid_list)
 
 
 def kill(pid):
     process = psutil.Process(pid)
     if process:
         process.kill()
-        return process.is_running()
+        time.sleep(0.50)
+        if(not process.is_running()) : return 'Process %d killed' %pid
+        else: return 'Process %d still alive' % pid
     else:
         return None
