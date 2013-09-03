@@ -19,13 +19,10 @@ class GhostServer():
 
   def processing(self):
     #TODO do some processing: parsing the message, executings commands, 
-    print 'Processing ', self.stream
     return None
 
   def serve_forever(self):
-    print 'Serving ...'
     self.conn, self.addr = self.sock.accept()
-    print 'Connected from ', self.addr
     while True:
       self.receive()
       if(not self.stream):
@@ -34,7 +31,6 @@ class GhostServer():
       if(haveSomeThingToSay is not None):
         slef.send(haveSomeThingToSay)
 
-    print 'Loop broken'
     # once outside of the loop we close the actual connection and start wating for a new one
     self.conn.close()
     self.serve_forever()
