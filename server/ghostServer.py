@@ -38,6 +38,8 @@ class GhostServer():
       haveSomeThingToSay = self.processing()
       if(haveSomeThingToSay is not None):
         self.send(haveSomeThingToSay)
+      else:
+        self.send('ghost: command not found !')
 
     # once outside of the loop we close the actual connection and start wating for a new one
     self.conn.close()
